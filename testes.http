@@ -1,0 +1,63 @@
+### 1. Fazer o Login (Admin Inicial)
+POST http://127.0.0.1:8000/api/login
+Content-Type: application/json
+
+{
+    "email": "admin@barbearia.com",
+    "password": "admin123"
+}
+
+### 2. Criar Novo Admin (Apenas Admin)
+# Coloque o token recebido no passo 1 aqui na frente do Bearer
+POST http://127.0.0.1:8000/api/admin/admins
+Content-Type: application/json
+Authorization: Bearer 2|LRaG6WpYWxAVCHm8pCUF2gRTAh6zcajUheMpJi9fa81e6846
+
+{
+    "name": "Admin Teste",
+    "email": "adminteste@barbearia.com",
+    "password": "password123",
+    "password_confirmation": "password123"
+}
+
+### 3. Criar Cliente (Público)
+POST http://127.0.0.1:8000/api/register
+Content-Type: application/json
+
+{
+    "name": "Cliente Teste",
+    "email": "cliente@teste.com",
+    "password": "password123",
+    "password_confirmation": "password123",
+    "phone": "11999999999",
+    "address": "Rua das Flores, 123",
+    "city": "São Paulo"
+}
+
+### 4. Fazer Login (Cliente)
+POST http://127.0.0.1:8000/api/login
+Content-Type: application/json
+
+{
+    "email": "cliente@teste.com",
+    "password": "password123"
+}
+
+### 5. Agendar Serviço (Cliente)
+# Coloque o token recebido no passo 4 aqui na frente do Bearer
+POST http://127.0.0.1:8000/api/client/schedulings
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_DO_CLIENTE_AQUI
+
+{
+    "start_date": "2026-05-10 14:00:00",
+    "end_date": "2026-05-10 14:30:00"
+}
+
+### 6. Listar Agendamentos (Admin)
+GET http://127.0.0.1:8000/api/admin/schedulings?date=2026-05-10
+Authorization: Bearer SEU_TOKEN_AQUI
+
+### 7. Listar Meus Agendamentos (Cliente)
+GET http://127.0.0.1:8000/api/client/schedulings
+Authorization: Bearer SEU_TOKEN_DO_CLIENTE_AQUI
