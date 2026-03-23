@@ -2,7 +2,7 @@
 
 Este repositório contém a API Backend do sistema de agendamentos para a Barbearia, desenvolvida como parte do Teste Técnico para Desenvolvedor Back-End Júnior.
 
-Nota Importante: O aplicativo visual Frontend Bônus (projetado em React/Next.js) que consome toda essa API não está na `master`. Ele foi versionado isoladamente **na própria branch chamada `barbearia-frontend` deste mesmo repositório do Github**! Mude a aba de branch ali em cima pra ver o código fonte das telas.
+Nota Importante: O aplicativo visual Frontend Bônus (projetado em React/Next.js) que consome toda essa API foi criado em uma arquitetura totalmente Desacoplada e Profissional. O código fonte do React está num **Repositório Separado** no Github criado exclusivamente para as telas. Acesse `https://github.com/Gabriuus/barbearia-frontend` para baixar a interface!
 
 ## Como Executar a API Localmente (O Motor)
 
@@ -43,9 +43,10 @@ A sua API estará pronta e blindada rodando em `http://127.0.0.1:8000`. (*Não f
 Se você preferir não testar a API cruamente com códigos e quiser usar a interface visual real que idealizamos:
 
 1. Deixe o motor do Backend rodando intocável (Passo 8 acima).
-2. Abra um NOVO terminal e puxe do repositório a branch que guarda nossa interface:
+2. Abra um NOVO terminal na sua máquina, clone o repositório da web e entre na pasta:
    ```bash
-   git checkout barbearia-frontend
+   git clone https://github.com/Gabriuus/barbearia-frontend.git
+   cd barbearia-frontend
    ```
 3. Com os nossos arquivos visuais preenchendo a pasta, instale os pacotes Node:
    ```bash
