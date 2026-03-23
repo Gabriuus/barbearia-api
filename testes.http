@@ -11,7 +11,7 @@ Content-Type: application/json
 # Coloque o token recebido no passo 1 aqui na frente do Bearer
 POST http://127.0.0.1:8000/api/admin/admins
 Content-Type: application/json
-Authorization: Bearer 2|LRaG6WpYWxAVCHm8pCUF2gRTAh6zcajUheMpJi9fa81e6846
+Authorization: Bearer 2|oXMrAvAeBW30zU3RBUFlK01thAecnRcXrUqUkfJBb764e788
 
 {
     "name": "Admin Teste",
@@ -47,11 +47,11 @@ Content-Type: application/json
 # Coloque o token recebido no passo 4 aqui na frente do Bearer
 POST http://127.0.0.1:8000/api/client/schedulings
 Content-Type: application/json
-Authorization: Bearer SEU_TOKEN_DO_CLIENTE_AQUI
+Authorization: Bearer YBA2UlcIgylANBfSj7adc2ETWBQR6GiJYwLiUOXXe1d99f12
 
 {
-    "start_date": "2026-05-10 14:00:00",
-    "end_date": "2026-05-10 14:30:00"
+    "start_date": "2026-05-10 14:10:00",
+    "end_date": "2026-05-10 14:40:00"
 }
 
 ### 6. Listar Agendamentos (Admin)

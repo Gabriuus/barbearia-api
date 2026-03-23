@@ -1,20 +1,25 @@
-# Sistema de Barbearia - API RESTful (Laravel 12)
+# Barbearia API (Laravel 12)
 
-Este repositório contém o código-fonte da API da barbearia, criado como Teste Técnico para Desenvolvedor Back-End Júnior.
+Este repositório contém a API Backend do sistema de agendamentos para a Barbearia, desenvolvida como parte do Teste Técnico para Desenvolvedor Back-End Júnior.
 
-A aplicação utiliza o framework **Laravel 12**, implementando o padrão REST, com segregação de responsabilidades entre Controladores e **Service Classes**, validação utilizando **FormRequests** e notificação assíncrona baseada em filas e jobs.
+Nota Importante: O aplicativo visual Frontend Bônus (projetado em React/Next.js) que consome toda essa API não está na `master`. Ele foi versionado isoladamente **na própria branch chamada `barbearia-frontend` deste mesmo repositório do Github**! Mude a aba de branch ali em cima pra ver o código fonte das telas.
 
-## Requisitos
-* PHP >= 8.2
-* Composer
-* Extensões PHP obrigatórias: `pdo_mysql` (Para o Banco de Dados)
-* MySQL ou MariaDB rodando localmente (porta 3306)
+## Como Executar a API Localmente (O Motor)
 
-## 📌 1. Instalação e Execução
+Siga as instruções abaixo para rodar o backend principal na sua máquina:
 
-### Passo a passo:
-1. Abra o terminal na raiz do projeto (`barbearia-api`).
-2. Garanta que suas credenciais estão corretas no arquivo `.env`. O padrão pré-configurado é:
+1. Ligue o servidor de banco de dados MySQL (ex: pelo XAMPP).
+2. Abra o seu terminal e acesse a raiz do projeto clonado.
+3. Instale as dependências do servidor:
+   ```bash
+   composer install
+   ```
+4. Crie uma cópia do arquivo de configurações renomeando `env.example` para `.env` na raiz do projeto.
+5. Gere a chave única de segurança da aplicação:
+   ```bash
+   php artisan key:generate
+   ```
+6. O seu arquivo `.env` deve conter estas credenciais básicas apontando para o seu MySQL:
    ```env
    DB_CONNECTION=mysql
    DB_HOST=127.0.0.1
@@ -23,61 +28,49 @@ A aplicação utiliza o framework **Laravel 12**, implementando o padrão REST, 
    DB_USERNAME=root
    DB_PASSWORD=
    ```
-3. Instale as dependências com o Composer (se não estiverem instaladas):
-   ```bash
-   composer install
-   ```
-4. Crie o banco de dados `barbearia_api` via Painel de Controle (Ex: PhpMyAdmin, DBeaver) ou via linha de comando se ainda não existir.
-5. Execute as migrações e o seeder (isso cirará os perfis e o admin inicial):
+7. Crie o banco de dados e injete os dados iniciais do administrador de uma vez:
    ```bash
    php artisan migrate:fresh --seed
    ```
-6. Inicie a fila de processamento (para recebimento de e-mails em log/assíncronos):
-   ```bash
-   php artisan queue:work
-   ```
-7. Em outra aba do terminal, inicie o servidor:
+8. Inicie o servidor da API isoladamente:
    ```bash
    php artisan serve
    ```
+A sua API estará pronta e blindada rodando em `http://127.0.0.1:8000`. (*Não feche este terminal ligado*).
 
-*(O e-mail padrão do Admin Inicial é `admin@barbearia.com` e a senha é `admin123`)*
+## Como Executar o Aplicativo Visual (O Frontend React)
 
----
+Se você preferir não testar a API cruamente com códigos e quiser usar a interface visual real que idealizamos:
 
-## 📖 2. Documentação da API (Apidog / Swagger)
-
-A especificação OpenAPI 3.0 está no arquivo raiz chamado `apidog.yaml`.
-Para visualizar de forma interativa via **Apidog**:
-1. Baixe o App ou Acesse [Apidog Web](https://apidog.com/).
-2. Crie um novo projeto.
-3. Clique em "Importar", selecione `apidog.yaml` deste diretório local.
-4. Todos os endpoints e schemas estarão visíveis e prontos para teste.
-
----
-
-## ⚡ 3. Teste via Postman / Insomnia
-
-Para testar no Insomnia/Postman:
-1. Crie uma requisição do tipo **POST** para `http://localhost:8000/api/login`.
-   Corpo:
-   ```json
-   {
-       "email": "admin@barbearia.com",
-       "password": "admin123"
-   }
+1. Deixe o motor do Backend rodando intocável (Passo 8 acima).
+2. Abra um NOVO terminal e puxe do repositório a branch que guarda nossa interface:
+   ```bash
+   git checkout barbearia-frontend
    ```
-2. Após disparar, copie o token retornado em `data.token`.
-3. Para rotas privadas (Ex: `POST /api/admin/admins`), vá na aba `Auth` (ou `Authorization`), selecione **Bearer Token** e cole o token.
-4. Para simular Cliente, use a rota aberta `POST /api/register` preenchendo o corpo JSON e faça o login com este mesmo usuário novo gerado.
+3. Com os nossos arquivos visuais preenchendo a pasta, instale os pacotes Node:
+   ```bash
+   npm install
+   ```
+4. Ligue o servidor das telas dinâmicas:
+   ```bash
+   npm run dev
+   ```
+5. Abra o seu navegador comum e acesse: `http://localhost:3000`
+6. Teste e logue visualmente no "Painel de Administração" usando a conta mestre plantada no passo 7 da API:
+   - E-mail: admin@barbearia.com
+   - Senha: admin123
 
----
 
-## 🚀 4. Funcionalidades Implementadas (Bônus Incluídos)
-- [x] Autenticação segura via **Sanctum**.
-- [x] Implementação de **UUID** como chave principal no banco de dados.
-- [x] Rotas privadas por tipo de perfil e criação *apenas de admins por admins*.
-- [x] Agendamentos por clientes testando choque/colisão de horários.
-- [x] Serviço de background Queue processando *Jobs/Mailables* de notificação de Agendamento.
-- [x] Arquitetura distribuída com **Services** e regras em **FormRequests**.
-- [x] Filtros e Paginação de listagens na agenda.
+## Testes Independentes sem Tela (Postman/VS Code)
+
+O maior poder de uma arquitetura RESTful é sua independência. Se quiser testar o motor de negócio enxuto (ignorando os passos do app em React acima):
+1. Abra o arquivo `testes.http` fornecido no repositório.
+2. Usando uma extensão REST Client de sua preferência, atire "Send Request" nele para simular as criações de clientes e marcações de horário pela injeção JSON direta.
+
+## Monitorando Filas de Disparo (Notificação)
+
+Todo Agendamento bem-sucedido envia um pacote log de e-mail ao gestor sorrateiramente em *Plano de Fundo* em frações de segundos. Para capturar processamentos em fila rodando e esvazia-la:
+Abra um novo terminal e ative o descarregador:
+```bash
+php artisan queue:work
+```
